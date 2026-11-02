@@ -1,0 +1,6 @@
+{
+  "name": "NFC & QR Business Review Platform",
+  "description": "Mobile-first NFC and QR code customer review platform for local businesses, featuring Apple-inspired aesthetics, dynamic business pages, smart review drafts, and admin management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
