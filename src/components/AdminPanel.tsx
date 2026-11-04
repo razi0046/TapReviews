@@ -31,8 +31,11 @@ import {
   AlertTriangle,
   AlertCircle,
   X,
-  Download
+  Download,
+  Search,
+  Filter,
 } from 'lucide-react';
+import { CategoryBadge, formatCategoryLabel, renderCategoryIcon } from '../utils/categoryMeta';
 
 interface AdminPanelProps {
   onNavigateToReview: (slug: string, uuid: string) => void;
@@ -44,6 +47,11 @@ export const STANDARD_CATEGORIES = [
   'restaurant',
   'cafe',
   'bakery',
+  'fast-food',
+  'kebab-store',
+  'sweets-shop',
+  'snacks-shop',
+  'meat-shop',
   'salon',
   'spa',
   'clinic',
@@ -53,6 +61,8 @@ export const STANDARD_CATEGORIES = [
   'car-service',
   'fashion',
   'clothing',
+  'abaya-shop',
+  'bags-shop',
   'mobile-repairing-shop',
   'electronics-shop',
   'jewellery',
@@ -64,6 +74,11 @@ export const CATEGORY_OPTIONS = [
   { value: 'restaurant', label: 'Restaurant' },
   { value: 'cafe', label: 'Café' },
   { value: 'bakery', label: 'Bakery' },
+  { value: 'fast-food', label: 'Fast Food' },
+  { value: 'kebab-store', label: 'Kebab Store' },
+  { value: 'sweets-shop', label: 'Sweets Shop' },
+  { value: 'snacks-shop', label: 'Snacks Shop' },
+  { value: 'meat-shop', label: 'Meat Shop' },
   { value: 'salon', label: 'Salon' },
   { value: 'spa', label: 'Spa' },
   { value: 'clinic', label: 'Clinic' },
@@ -73,6 +88,8 @@ export const CATEGORY_OPTIONS = [
   { value: 'car-service', label: 'Car Service' },
   { value: 'fashion', label: 'Fashion' },
   { value: 'clothing', label: 'Clothing Store' },
+  { value: 'abaya-shop', label: 'Abaya Shop' },
+  { value: 'bags-shop', label: 'Bags Shop' },
   { value: 'mobile-repairing-shop', label: 'Mobile Repairing Shop' },
   { value: 'electronics-shop', label: 'Electronics Shop' },
   { value: 'jewellery', label: 'Jewellery Shop' },
@@ -108,6 +125,27 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   // Category state for the Add form
   const [selectedCategory, setSelectedCategory] = useState<string>('restaurant');
   const [customCategory, setCustomCategory] = useState<string>('');
+
+  // Dashboard search and category filter state
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filterCategory, setFilterCategory] = useState<string>('all');
+
+  // Filtered businesses based on search query and category filter
+  const filteredBusinesses = businesses.filter((biz) => {
+    const cat = (biz.business_category || 'general').toLowerCase();
+    const matchesCategory = filterCategory === 'all' || cat === filterCategory.toLowerCase();
+    if (!matchesCategory) return false;
+
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase().trim();
+    const nameMatch = biz.business_name.toLowerCase().includes(q);
+    const slugMatch = biz.slug.toLowerCase().includes(q);
+    const taglineMatch = (biz.tagline || '').toLowerCase().includes(q);
+    const catLabelMatch = formatCategoryLabel(biz.business_category).toLowerCase().includes(q);
+    const catSlugMatch = cat.includes(q);
+
+    return nameMatch || slugMatch || taglineMatch || catLabelMatch || catSlugMatch;
+  });
 
   // Edit Business Form State
   const [editSelectedCategory, setEditSelectedCategory] = useState<string>('restaurant');
@@ -838,8 +876,91 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </button>
               </div>
             ) : (
+              <>
+                {/* Search and Category Filter Toolbar */}
+                <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between bg-white p-3.5 rounded-2xl border border-[#ECEAE4] shadow-xs">
+                {/* Search Bar */}
+                <div className="relative flex-1">
+                  <Search className="w-4 h-4 text-[#8E8E93] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search businesses by name, slug, tagline, or category..."
+                    className="w-full pl-9 pr-8 py-2 text-xs rounded-xl bg-[#FAF9F5] border border-[#E5E2DA] text-[#1C1C1E] focus:outline-none focus:bg-white focus:border-[#1C1C1E] transition-colors"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 p-0.5 rounded-full text-[#8E8E93] hover:text-[#1C1C1E] cursor-pointer"
+                      aria-label="Clear search"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Category Filter Dropdown */}
+                <div className="flex items-center gap-2">
+                  <div className="relative shrink-0 flex-1 sm:flex-none">
+                    <Filter className="w-3.5 h-3.5 text-[#8E8E93] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <select
+                      value={filterCategory}
+                      onChange={(e) => setFilterCategory(e.target.value)}
+                      aria-label="Filter by category"
+                      className="w-full sm:w-auto pl-8 pr-7 py-2 text-xs rounded-xl bg-[#FAF9F5] border border-[#E5E2DA] text-[#1C1C1E] focus:outline-none focus:bg-white focus:border-[#1C1C1E] transition-colors appearance-none cursor-pointer font-medium"
+                    >
+                      <option value="all">All Categories ({businesses.length})</option>
+                      {CATEGORY_OPTIONS.filter((c) => c.value !== 'other').map((opt) => {
+                        const count = businesses.filter(
+                          (b) => (b.business_category || 'general').toLowerCase() === opt.value
+                        ).length;
+                        return (
+                          <option key={opt.value} value={opt.value}>
+                            {opt.label} {count > 0 ? `(${count})` : ''}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    <ChevronDown className="w-3.5 h-3.5 text-[#8E8E93] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+
+                  {(searchQuery || filterCategory !== 'all') && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery('');
+                        setFilterCategory('all');
+                      }}
+                      className="px-3 py-2 text-xs font-semibold text-[#636366] hover:text-[#1C1C1E] bg-[#FAF9F5] hover:bg-[#ECEAE4] border border-[#E5E2DA] rounded-xl transition-colors cursor-pointer shrink-0"
+                    >
+                      Reset
+                    </button>
+                  )}
+                </div>
+              </div>
+
+            {filteredBusinesses.length === 0 ? (
+              <div className="bg-white rounded-3xl p-8 text-center border border-[#ECEAE4] space-y-3 shadow-xs">
+                <div className="w-10 h-10 rounded-full bg-[#FAF9F5] border border-[#E5E2DA] flex items-center justify-center mx-auto text-[#8E8E93]">
+                  <Search className="w-4 h-4" />
+                </div>
+                <h4 className="font-bold text-base text-[#1C1C1E]">No Businesses Found</h4>
+                <p className="text-xs text-[#8E8E93] max-w-sm mx-auto">
+                  No businesses matched your search or category filter. Try a different query or reset filters.
+                </p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setFilterCategory('all');
+                  }}
+                  className="px-4 py-2 bg-[#1C1C1E] text-white rounded-full text-xs font-semibold hover:bg-black transition-colors cursor-pointer"
+                >
+                  Clear Filters
+                </button>
+              </div>
+            ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {businesses.map((biz) => {
+                {filteredBusinesses.map((biz) => {
                   const reviewUrl = getBusinessCanonicalUrl(biz);
                   return (
                     <div
@@ -864,8 +985,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             <span
                               className={`px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase backdrop-blur-md shadow-xs ${
                                 biz.is_active
-                                  ? 'bg-emerald-500/90 text-white'
-                                  : 'bg-rose-500/90 text-white'
+                                    ? 'bg-emerald-500/90 text-white'
+                                    : 'bg-rose-500/90 text-white'
                               }`}
                             >
                               {biz.is_active ? 'Active' : 'Inactive'}
@@ -884,12 +1005,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wider uppercase text-[#8E8E93]">
-                            <span className="text-[#1C1C1E] bg-[#FAF9F5] px-2 py-0.5 rounded-md border border-[#E5E2DA] lowercase font-mono">
-                              {biz.business_category || 'general'}
-                            </span>
+                          <div className="flex items-center gap-1.5 text-[11px] font-semibold tracking-wider text-[#8E8E93]">
+                            <CategoryBadge category={biz.business_category} className="px-2 py-0.5 text-[10px]" />
                             <span>•</span>
-                            <span className="line-clamp-1">{biz.tagline || 'LOCAL BUSINESS'}</span>
+                            <span className="line-clamp-1 uppercase tracking-wider">{biz.tagline || 'LOCAL BUSINESS'}</span>
                           </div>
 
                           <p className="text-xs text-[#636366] line-clamp-2">
@@ -984,6 +1103,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   );
                 })}
               </div>
+            )}
+              </>
             )}
           </div>
         )}

@@ -275,6 +275,244 @@ export const INITIAL_CATEGORY_SUGGESTIONS: ReviewSuggestion[] = [
     is_active: true,
   },
 
+  // Fast Food
+  {
+    id: 'sug-ff-exc',
+    business_category: 'fast-food',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Incredible fast food! The burgers were juicy and flavorful, fries hot and crispy, and service was lightning fast. Great value for money and a super clean dining area.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-ff-good',
+    business_category: 'fast-food',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Quick and tasty fast food. Our order was ready within minutes and the food was fresh. Perfect spot for a quick bite.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-ff-avg',
+    business_category: 'fast-food',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Decent fast food overall. The meal was okay, but the fries were slightly lukewarm and the counter was busy during peak hours.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-ff-poor',
+    business_category: 'fast-food',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'Disappointing visit today. The burger was dry and our order took over 20 minutes for fast food. Hope turnaround improves.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Kebab Store
+  {
+    id: 'sug-kebab-exc',
+    business_category: 'kebab-store',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Hands down the best kebabs in town! Tender, smoky, perfectly spiced, and served piping hot with fresh mint chutney and warm naan. Outstanding hospitality and authentic taste.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-kebab-good',
+    business_category: 'kebab-store',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Very good kebabs with rich marinade and great charcoal aroma. Friendly staff and quick takeaway packaging.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-kebab-avg',
+    business_category: 'kebab-store',
+    satisfaction_level: 'Average',
+    suggestion_text: 'The kebabs had good flavor, but portions were slightly small for the price. Service was polite.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-kebab-poor',
+    business_category: 'kebab-store',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'The kebabs were dry and lacked the usual spice balance. Order took longer than promised.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Abaya Shop
+  {
+    id: 'sug-abaya-exc',
+    business_category: 'abaya-shop',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Exquisite collection of abayas! The fabric quality, fine stitching, and elegant cuts are exceptional. The staff was incredibly patient, courteous, and helped me find the perfect fit. Highly recommended!',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-abaya-good',
+    business_category: 'abaya-shop',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Beautiful abaya designs and pleasant shopping experience. Helpful sales staff and fair pricing for the craftsmanship.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-abaya-avg',
+    business_category: 'abaya-shop',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Nice collection of modest wear, though popular sizes in a few trending designs were out of stock. Overall decent experience.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-abaya-poor',
+    business_category: 'abaya-shop',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'Customer assistance was lacking and alteration service took several days longer than agreed. Needs better customer support.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Sweets Shop
+  {
+    id: 'sug-sweet-exc',
+    business_category: 'sweets-shop',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Pure perfection in every bite! The traditional sweets are prepared with rich desi ghee, perfect sweetness, and unmatched freshness. Pristine hygiene and warm, welcoming service.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-sweet-good',
+    business_category: 'sweets-shop',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Delicious fresh mithai and sweets. The packaging was neat and staff was helpful with recommendations.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-sweet-avg',
+    business_category: 'sweets-shop',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Good variety of sweets. Taste was standard, though some popular festival items were already sold out.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-sweet-poor',
+    business_category: 'sweets-shop',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'The sweets purchased did not taste fresh and the counter staff seemed disinterested. Hope quality consistency improves.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Snacks Shop
+  {
+    id: 'sug-snack-exc',
+    business_category: 'snacks-shop',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Best snack shop around! Fresh, crispy savories and flavorful street-style bites made right before your eyes. Hygiene is top-notch and prices are very reasonable. A must-visit!',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-snack-good',
+    business_category: 'snacks-shop',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Tasty and crisp snacks with great flavor combinations. Fast service and clean packaging for takeout.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-snack-avg',
+    business_category: 'snacks-shop',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Decent variety of snacks. The taste was okay, though oil could have been drained better on the fried items.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-snack-poor',
+    business_category: 'snacks-shop',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'Snacks tasted stale and were served lukewarm. Hygiene standards need improvement.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Meat Shop
+  {
+    id: 'sug-meat-exc',
+    business_category: 'meat-shop',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Top-quality, fresh, and hygienic meat shop! Custom cuts were prepared exactly as requested, cleanly packed, and impeccably fresh. Highly professional and spotless store.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-meat-good',
+    business_category: 'meat-shop',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Reliable meat shop with fresh stock and courteous butchers. Clean environment and quick counter service.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-meat-avg',
+    business_category: 'meat-shop',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Meat quality is satisfactory. Waiting time was somewhat long during morning rush hours.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-meat-poor',
+    business_category: 'meat-shop',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'The cuts were uneven and the meat did not look as fresh as expected. Better cleanliness is needed.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Bags Shop
+  {
+    id: 'sug-bags-exc',
+    business_category: 'bags-shop',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Fantastic bag store! Impressive range of travel luggage, backpacks, and stylish handbags. Superior build quality, durable zippers, and knowledgeable staff who helped me choose the right size.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-bags-good',
+    business_category: 'bags-shop',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Great selection of bags and accessories. Reasonable prices and helpful customer service.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-bags-avg',
+    business_category: 'bags-shop',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Decent collection of bags. Found what I needed, though warranty and return explanations could be clearer.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-bags-poor',
+    business_category: 'bags-shop',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'The bag zipper had an issue within days and the exchange process was cumbersome. Disappointed with the after-sales experience.',
+    language: 'en',
+    is_active: true,
+  },
+
   // General / Default
   {
     id: 'sug-gen-exc',
@@ -361,7 +599,16 @@ function getLocalSuggestions(): ReviewSuggestion[] {
     return INITIAL_CATEGORY_SUGGESTIONS;
   }
   try {
-    return JSON.parse(stored);
+    const parsed: ReviewSuggestion[] = JSON.parse(stored);
+    // Ensure all standard initial suggestions exist in local cache without wiping custom ones
+    const existingIds = new Set(parsed.map((s) => s.id));
+    const missing = INITIAL_CATEGORY_SUGGESTIONS.filter((s) => !existingIds.has(s.id));
+    if (missing.length > 0) {
+      const merged = [...parsed, ...missing];
+      localStorage.setItem(STORAGE_KEY_SUGGESTIONS, JSON.stringify(merged));
+      return merged;
+    }
+    return parsed;
   } catch {
     return INITIAL_CATEGORY_SUGGESTIONS;
   }

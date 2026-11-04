@@ -10,6 +10,7 @@ import { parseReviewPath, parsePublicBusinessRoute } from './utils/slugify';
 import { CustomerReviewPage } from './components/CustomerReviewPage';
 import { AdminAuthGuard } from './components/AdminAuthGuard';
 import { TapReviewsLogo } from './components/TapReviewsLogo';
+import { CategoryBadge } from './utils/categoryMeta';
 import { Crown, QrCode, Shield, ExternalLink, ArrowRight, Store, AlertCircle, Sparkles } from 'lucide-react';
 
 export default function App() {
@@ -249,7 +250,10 @@ export default function App() {
                     <h4 className="font-bold text-sm text-[#1C1C1E] group-hover:text-[#C5A059] transition-colors">
                       {biz.business_name}
                     </h4>
-                    <p className="text-[10px] uppercase tracking-wider font-semibold text-[#8E8E93]">
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <CategoryBadge category={biz.business_category} className="px-2 py-0 text-[10px]" />
+                    </div>
+                    <p className="text-[10px] uppercase tracking-wider font-semibold text-[#8E8E93] mt-1.5 line-clamp-1">
                       {biz.tagline || 'AUTHENTIC STOREFRONT'}
                     </p>
                   </div>

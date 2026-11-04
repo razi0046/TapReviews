@@ -3,6 +3,7 @@ import { Business, SatisfactionLevel, ReviewTemplate } from '../types';
 import { businessService } from '../services/businessService';
 import { getCharacterCountFeedback } from '../utils/slugify';
 import { getRecentSuggestionIds, recordDisplayedSuggestionId } from '../utils/recentSuggestions';
+import { CategoryBadge } from '../utils/categoryMeta';
 import {
   Crown,
   X,
@@ -205,8 +206,13 @@ export const CustomerReviewPage: React.FC<CustomerReviewPageProps> = ({
             {business.business_name}
           </h1>
 
+          {/* Category Badge with Icon */}
+          <div className="flex items-center justify-center mt-2">
+            <CategoryBadge category={business.business_category} />
+          </div>
+
           {/* Small Uppercase Tagline with Decorative Lines */}
-          <div className="flex items-center justify-center gap-3 mt-2">
+          <div className="flex items-center justify-center gap-3 mt-2.5">
             <span className="h-[1px] w-8 sm:w-12 bg-[#E5E0D5]" />
             <p className="text-[10px] sm:text-[11px] tracking-[0.18em] font-semibold uppercase text-[#8E8E93]">
               {business.tagline || 'AUTHENTIC LOCAL EXPERIENCE'}

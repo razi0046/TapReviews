@@ -134,4 +134,41 @@ test('businessService.pickRotatingReviewSuggestion retries with general when cus
   assert.ok(result.review_text.length > 10);
 });
 
+test('businessService returns suggestions for all 7 new categories across satisfaction levels', async () => {
+  const newCategories = [
+    'fast-food',
+    'kebab-store',
+    'abaya-shop',
+    'sweets-shop',
+    'snacks-shop',
+    'meat-shop',
+    'bags-shop',
+  ];
+
+  const levels: ('Excellent' | 'Good' | 'Average' | 'Poor')[] = [
+    'Excellent',
+    'Good',
+    'Average',
+    'Poor',
+  ];
+
+  for (const cat of newCategories) {
+    for (const level of levels) {
+      const suggestion = await businessService.getCategoryReviewSuggestion(cat, level);
+      assert.ok(suggestion, `Suggestion for ${cat} / ${level} should exist`);
+      assert.equal(suggestion.business_category, cat);
+      assert.equal(suggestion.satisfaction_level, level);
+      const text = suggestion.suggestion_text || suggestion.review_text || '';
+      assert.ok(text.length > 10, `Review text for ${cat} / ${level} should be substantive`);
+
+      // Rotating picker should also resolve
+      const rotating = await businessService.pickRotatingReviewSuggestion(cat, level);
+      assert.ok(rotating, `Rotating suggestion for ${cat} / ${level} should resolve`);
+      assert.ok(rotating.id);
+      assert.ok(rotating.review_text.length > 10);
+    }
+  }
+});
+
+
 
