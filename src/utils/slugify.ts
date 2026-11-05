@@ -98,6 +98,16 @@ export function isValidUuid(uuid: string): boolean {
   return regex.test(uuid);
 }
 
+export function isValidHttpUrl(url?: string | null): boolean {
+  if (!url || !url.trim()) return false;
+  try {
+    const parsed = new URL(url.trim());
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
 export function validateGoogleReviewUrl(url: string): { isValid: boolean; normalized: string } {
   if (!url) return { isValid: false, normalized: '' };
   const trimmed = url.trim();

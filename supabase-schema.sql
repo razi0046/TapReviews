@@ -14,12 +14,14 @@ CREATE TABLE IF NOT EXISTS public.businesses (
     google_review_url TEXT NOT NULL,
     instagram_url TEXT,
     website_url TEXT,
+    facebook_url TEXT,
+    youtube_url TEXT,
     is_active BOOLEAN NOT NULL DEFAULT true,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- In case table already exists without business_category, ensure column is added
+-- In case table already exists, ensure business_category, facebook_url, and youtube_url are added
 DO $$ 
 BEGIN 
     IF NOT EXISTS (
@@ -27,6 +29,20 @@ BEGIN
         WHERE table_name = 'businesses' AND column_name = 'business_category'
     ) THEN 
         ALTER TABLE public.businesses ADD COLUMN business_category TEXT NOT NULL DEFAULT 'general';
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'businesses' AND column_name = 'facebook_url'
+    ) THEN 
+        ALTER TABLE public.businesses ADD COLUMN facebook_url TEXT;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'businesses' AND column_name = 'youtube_url'
+    ) THEN 
+        ALTER TABLE public.businesses ADD COLUMN youtube_url TEXT;
     END IF;
 END $$;
 

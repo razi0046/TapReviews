@@ -174,5 +174,37 @@ test('businessService returns suggestions for all new categories across satisfac
   }
 });
 
+test('businessService persists and updates facebook_url and youtube_url', async () => {
+  const { business } = await businessService.createBusiness({
+    business_name: 'Metro Optics & Sunglasses',
+    business_category: 'optics-store',
+    hero_image_url: '/src/assets/images/royal_biryani_platter_1793547629005.jpg',
+    google_review_url: 'https://g.page/r/metrooptics/review',
+    welcome_message: 'Welcome to Metro Optics!',
+    facebook_url: 'https://facebook.com/metrooptics',
+    youtube_url: 'https://youtube.com/@metrooptics',
+    instagram_url: 'https://instagram.com/metrooptics',
+    website_url: 'https://metrooptics.in',
+  });
+
+  assert.ok(business.id);
+  assert.equal(business.facebook_url, 'https://facebook.com/metrooptics');
+  assert.equal(business.youtube_url, 'https://youtube.com/@metrooptics');
+
+  // Verify retrieval via getBusinessByIdentifier
+  const retrieved = await businessService.getBusinessByIdentifier(business.id);
+  assert.ok(retrieved);
+  assert.equal(retrieved.facebook_url, 'https://facebook.com/metrooptics');
+  assert.equal(retrieved.youtube_url, 'https://youtube.com/@metrooptics');
+
+  // Test updating social URLs
+  const updated = await businessService.updateBusiness(business.id, {
+    facebook_url: 'https://facebook.com/metrooptics.official',
+    youtube_url: 'https://youtube.com/@metroopticsofficial',
+  });
+  assert.equal(updated.facebook_url, 'https://facebook.com/metrooptics.official');
+  assert.equal(updated.youtube_url, 'https://youtube.com/@metroopticsofficial');
+});
+
 
 

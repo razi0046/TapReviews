@@ -5,6 +5,7 @@ import {
   generateUUID,
   parseReviewPath,
   isValidUuid,
+  isValidHttpUrl,
   validateGoogleReviewUrl,
   getCharacterCountFeedback,
 } from './slugify';
@@ -78,4 +79,17 @@ test('getCharacterCountFeedback calculates text metrics within limit', () => {
   const feedbackOver = getCharacterCountFeedback(longText, 1000);
   assert.equal(feedbackOver.isValid, false);
   assert.equal(feedbackOver.remaining, 0);
+});
+
+test('isValidHttpUrl validates HTTP and HTTPS URLs and rejects invalid formats', () => {
+  assert.equal(isValidHttpUrl('https://facebook.com/royalbiryani'), true);
+  assert.equal(isValidHttpUrl('http://facebook.com/royalbiryani'), true);
+  assert.equal(isValidHttpUrl('https://youtube.com/@royalbiryani'), true);
+  assert.equal(isValidHttpUrl('https://youtu.be/xyz123'), true);
+  assert.equal(isValidHttpUrl('facebook.com/royalbiryani'), false);
+  assert.equal(isValidHttpUrl('javascript:alert(1)'), false);
+  assert.equal(isValidHttpUrl(''), false);
+  assert.equal(isValidHttpUrl('   '), false);
+  assert.equal(isValidHttpUrl(undefined), false);
+  assert.equal(isValidHttpUrl(null), false);
 });

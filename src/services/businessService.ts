@@ -19,6 +19,8 @@ export const INITIAL_BUSINESSES: Business[] = [
     google_review_url: 'https://search.google.com/local/writereview?placeid=ChIJ123_RoyalBiryani',
     instagram_url: 'https://instagram.com/royalbiryani.in',
     website_url: 'https://royalbiryani.in',
+    facebook_url: 'https://facebook.com/royalbiryani.in',
+    youtube_url: 'https://youtube.com/@royalbiryanihouse',
     is_active: true,
     created_at: new Date('2026-01-15T10:00:00Z').toISOString(),
     updated_at: new Date('2026-01-15T10:00:00Z').toISOString(),
@@ -34,6 +36,8 @@ export const INITIAL_BUSINESSES: Business[] = [
     google_review_url: 'https://search.google.com/local/writereview?placeid=ChIJ456_CafeChai',
     instagram_url: 'https://instagram.com/cafechaibloom',
     website_url: 'https://cafechaibloom.com',
+    facebook_url: 'https://facebook.com/cafechaibloom',
+    youtube_url: 'https://youtube.com/@cafechaibloom',
     is_active: true,
     created_at: new Date('2026-02-01T11:00:00Z').toISOString(),
     updated_at: new Date('2026-02-01T11:00:00Z').toISOString(),
@@ -49,6 +53,8 @@ export const INITIAL_BUSINESSES: Business[] = [
     google_review_url: 'https://search.google.com/local/writereview?placeid=ChIJ789_SpiceSymphony',
     instagram_url: 'https://instagram.com/spicesymphony.dining',
     website_url: 'https://spicesymphony.in',
+    facebook_url: 'https://facebook.com/spicesymphony',
+    youtube_url: 'https://youtube.com/@spicesymphony',
     is_active: true,
     created_at: new Date('2026-02-10T14:30:00Z').toISOString(),
     updated_at: new Date('2026-02-10T14:30:00Z').toISOString(),
@@ -684,9 +690,12 @@ export const INITIAL_CATEGORY_SUGGESTIONS: ReviewSuggestion[] = [
   },
 ];
 
-// Helper to access LocalStorage cache
+// Helper to access LocalStorage cache (with in-memory fallback for Node test runner)
+let inMemoryBusinesses: Business[] = [...INITIAL_BUSINESSES];
+let inMemoryTemplates: ReviewTemplate[] = [...INITIAL_TEMPLATES];
+
 function getLocalBusinesses(): Business[] {
-  if (typeof window === 'undefined') return INITIAL_BUSINESSES;
+  if (typeof window === 'undefined') return inMemoryBusinesses;
   const stored = localStorage.getItem(STORAGE_KEY_BUSINESSES);
   if (!stored) {
     localStorage.setItem(STORAGE_KEY_BUSINESSES, JSON.stringify(INITIAL_BUSINESSES));
@@ -704,12 +713,13 @@ function getLocalBusinesses(): Business[] {
 }
 
 function setLocalBusinesses(list: Business[]): void {
+  inMemoryBusinesses = list;
   if (typeof window === 'undefined') return;
   localStorage.setItem(STORAGE_KEY_BUSINESSES, JSON.stringify(list));
 }
 
 function getLocalTemplates(): ReviewTemplate[] {
-  if (typeof window === 'undefined') return INITIAL_TEMPLATES;
+  if (typeof window === 'undefined') return inMemoryTemplates;
   const stored = localStorage.getItem(STORAGE_KEY_TEMPLATES);
   if (!stored) {
     localStorage.setItem(STORAGE_KEY_TEMPLATES, JSON.stringify(INITIAL_TEMPLATES));
@@ -723,6 +733,7 @@ function getLocalTemplates(): ReviewTemplate[] {
 }
 
 function setLocalTemplates(list: ReviewTemplate[]): void {
+  inMemoryTemplates = list;
   if (typeof window === 'undefined') return;
   localStorage.setItem(STORAGE_KEY_TEMPLATES, JSON.stringify(list));
 }
@@ -762,7 +773,7 @@ export const businessService = {
         const { data, error } = await supabase
           .from('businesses')
           .select(
-            'id, business_name, slug, hero_image_url, welcome_message, tagline, business_category, google_review_url, instagram_url, website_url, is_active, created_at, updated_at'
+            'id, business_name, slug, hero_image_url, welcome_message, tagline, business_category, google_review_url, instagram_url, website_url, facebook_url, youtube_url, is_active, created_at, updated_at'
           )
           .eq('id', uuid)
           .eq('slug', slug)
@@ -820,7 +831,7 @@ export const businessService = {
         let query = supabase
           .from('businesses')
           .select(
-            'id, business_name, slug, hero_image_url, welcome_message, tagline, business_category, google_review_url, instagram_url, website_url, is_active, created_at, updated_at'
+            'id, business_name, slug, hero_image_url, welcome_message, tagline, business_category, google_review_url, instagram_url, website_url, facebook_url, youtube_url, is_active, created_at, updated_at'
           );
 
         if (isUuid) {
@@ -1150,6 +1161,8 @@ export const businessService = {
       google_review_url: formData.google_review_url.trim(),
       instagram_url: formData.instagram_url?.trim() || '',
       website_url: formData.website_url?.trim() || '',
+      facebook_url: formData.facebook_url?.trim() || '',
+      youtube_url: formData.youtube_url?.trim() || '',
       is_active: true,
       created_at: now,
       updated_at: now,

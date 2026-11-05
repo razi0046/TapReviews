@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Business, SatisfactionLevel, ReviewTemplate } from '../types';
 import { businessService } from '../services/businessService';
-import { getCharacterCountFeedback } from '../utils/slugify';
+import { getCharacterCountFeedback, isValidHttpUrl } from '../utils/slugify';
 import { getRecentSuggestionIds, recordDisplayedSuggestionId } from '../utils/recentSuggestions';
 import { CategoryBadge } from '../utils/categoryMeta';
 import {
@@ -15,6 +15,8 @@ import {
   Frown,
   Instagram,
   Globe,
+  Facebook,
+  Youtube,
   Check,
   Copy,
   ExternalLink,
@@ -431,57 +433,109 @@ export const CustomerReviewPage: React.FC<CustomerReviewPageProps> = ({
             </p>
           </div>
 
-          {/* Subtle separator */}
-          <div className="h-[1px] w-full bg-[#F2EFE8]" />
-
           {/* ================================================================= */}
           {/* 8. SOCIAL LINKS */}
           {/* ================================================================= */}
-          <footer className="space-y-3 pb-2" aria-labelledby="social-heading">
-            <h4
-              id="social-heading"
-              className="text-center text-xs font-semibold text-[#8E8E93] uppercase tracking-wider"
-            >
-              Follow us
-            </h4>
+          {(() => {
+            const socialLinks = [
+              isValidHttpUrl(business.facebook_url)
+                ? {
+                    id: 'facebook',
+                    name: 'Facebook',
+                    url: business.facebook_url!.trim(),
+                    icon: Facebook,
+                    iconColor: 'text-[#1877F2]',
+                    borderHover: 'hover:border-[#1877F2]',
+                  }
+                : null,
+              isValidHttpUrl(business.youtube_url)
+                ? {
+                    id: 'youtube',
+                    name: 'YouTube',
+                    url: business.youtube_url!.trim(),
+                    icon: Youtube,
+                    iconColor: 'text-[#FF0000]',
+                    borderHover: 'hover:border-[#FF0000]',
+                  }
+                : null,
+              isValidHttpUrl(business.instagram_url)
+                ? {
+                    id: 'instagram',
+                    name: 'Instagram',
+                    url: business.instagram_url!.trim(),
+                    icon: Instagram,
+                    iconColor: 'text-[#E1306C]',
+                    borderHover: 'hover:border-[#E1306C]',
+                  }
+                : null,
+              isValidHttpUrl(business.website_url)
+                ? {
+                    id: 'website',
+                    name: 'Website',
+                    url: business.website_url!.trim(),
+                    icon: Globe,
+                    iconColor: 'text-[#2C2C2E]',
+                    borderHover: 'hover:border-[#1C1C1E]',
+                  }
+                : null,
+            ].filter(Boolean) as Array<{
+              id: string;
+              name: string;
+              url: string;
+              icon: React.ComponentType<{ className?: string }>;
+              iconColor: string;
+              borderHover: string;
+            }>;
 
-            {/* Exactly two links: Instagram and Our Website */}
-            <div className="grid grid-cols-2 gap-3">
-              {business.instagram_url ? (
-                <a
-                  href={business.instagram_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#FAF9F6] border border-[#E5E2DA] hover:border-[#1C1C1E] text-xs font-medium text-[#1C1C1E] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
-                >
-                  <Instagram className="w-4 h-4 text-[#E1306C]" />
-                  <span>Instagram</span>
-                </a>
-              ) : (
-                <div className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#FAF9F6] border border-[#E5E2DA] opacity-50 text-xs font-medium text-[#8E8E93]">
-                  <Instagram className="w-4 h-4" />
-                  <span>Instagram</span>
-                </div>
-              )}
+            if (socialLinks.length === 0) return null;
 
-              {business.website_url ? (
-                <a
-                  href={business.website_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#FAF9F6] border border-[#E5E2DA] hover:border-[#1C1C1E] text-xs font-medium text-[#1C1C1E] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-black"
-                >
-                  <Globe className="w-4 h-4 text-[#2C2C2E]" />
-                  <span>Our Website</span>
-                </a>
-              ) : (
-                <div className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#FAF9F6] border border-[#E5E2DA] opacity-50 text-xs font-medium text-[#8E8E93]">
-                  <Globe className="w-4 h-4" />
-                  <span>Our Website</span>
-                </div>
-              )}
-            </div>
-          </footer>
+            return (
+              <>
+                {/* Subtle separator */}
+                <div className="h-[1px] w-full bg-[#F2EFE8]" />
+
+                <footer className="space-y-3 pb-2" aria-labelledby="social-heading">
+                  <h4
+                    id="social-heading"
+                    className="text-center text-xs font-semibold text-[#8E8E93] uppercase tracking-wider"
+                  >
+                    Follow us
+                  </h4>
+
+                  <div
+                    className={`grid gap-2.5 sm:gap-3 ${
+                      socialLinks.length === 1
+                        ? 'grid-cols-1 max-w-xs mx-auto w-full'
+                        : socialLinks.length === 2
+                        ? 'grid-cols-2'
+                        : socialLinks.length === 3
+                        ? 'grid-cols-2 sm:grid-cols-3'
+                        : 'grid-cols-2'
+                    }`}
+                  >
+                    {socialLinks.map((link, idx) => {
+                      const Icon = link.icon;
+                      const isThirdInTrio = socialLinks.length === 3 && idx === 2;
+                      return (
+                        <a
+                          key={link.id}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-[#FAF9F6] border border-[#E5E2DA] ${link.borderHover} text-xs font-medium text-[#1C1C1E] transition-all hover:bg-white hover:shadow-xs active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-black ${
+                            isThirdInTrio ? 'col-span-2 sm:col-span-1' : ''
+                          }`}
+                        >
+                          <Icon className={`w-4 h-4 ${link.iconColor} shrink-0`} />
+                          <span className="truncate">{link.name}</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                </footer>
+              </>
+            );
+          })()}
         </div>
       </main>
 

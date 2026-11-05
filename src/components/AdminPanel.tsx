@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Business, ReviewTemplate, SatisfactionLevel, BusinessFormData } from '../types';
 import { businessService } from '../services/businessService';
 import { getStoredSupabaseConfig, getSupabase } from '../lib/supabase';
-import { generateSlug, generateUUID } from '../utils/slugify';
+import { generateSlug, generateUUID, isValidHttpUrl } from '../utils/slugify';
 import { getBusinessCanonicalUrl, generateHighResQrCode, downloadQrCodeImage } from '../utils/appUrl';
 import { QrCodeModal } from './QrCodeModal';
 import { SupabaseSetupModal } from './SupabaseSetupModal';
@@ -18,6 +18,8 @@ import {
   Upload,
   Globe,
   Instagram,
+  Facebook,
+  Youtube,
   Star,
   Settings,
   Edit2,
@@ -169,6 +171,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     google_review_url: string;
     instagram_url: string;
     website_url: string;
+    facebook_url: string;
+    youtube_url: string;
   }>({
     business_name: '',
     tagline: '',
@@ -177,6 +181,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     google_review_url: '',
     instagram_url: '',
     website_url: '',
+    facebook_url: '',
+    youtube_url: '',
   });
   const [editErrors, setEditErrors] = useState<Record<string, string>>({});
   const [isEditSubmitting, setIsEditSubmitting] = useState<boolean>(false);
@@ -196,6 +202,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     google_review_url: '',
     instagram_url: '',
     website_url: '',
+    facebook_url: '',
+    youtube_url: '',
     templates: {
       Excellent: '',
       Good: '',
@@ -282,6 +290,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       google_review_url: biz.google_review_url,
       instagram_url: biz.instagram_url || '',
       website_url: biz.website_url || '',
+      facebook_url: biz.facebook_url || '',
+      youtube_url: biz.youtube_url || '',
     });
     setEditErrors({});
   };
@@ -329,6 +339,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     }
     if (!editFormData.google_review_url.trim()) {
       errors.google_review_url = 'Google review URL is required';
+    }
+
+    if (editFormData.facebook_url.trim() && !isValidHttpUrl(editFormData.facebook_url)) {
+      errors.facebook_url = 'Please enter a valid Facebook URL (e.g. https://facebook.com/...)';
+    }
+
+    if (editFormData.youtube_url.trim() && !isValidHttpUrl(editFormData.youtube_url)) {
+      errors.youtube_url = 'Please enter a valid YouTube URL (e.g. https://youtube.com/...)';
     }
 
     let normalizedCategory = editSelectedCategory;
@@ -426,6 +444,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         google_review_url: editFormData.google_review_url.trim(),
         instagram_url: editFormData.instagram_url.trim(),
         website_url: editFormData.website_url.trim(),
+        facebook_url: editFormData.facebook_url.trim(),
+        youtube_url: editFormData.youtube_url.trim(),
       });
 
       // 5. After the database update succeeds, delete the previous image only when its URL belongs to the business-images Supabase bucket.
@@ -552,6 +572,14 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       errors.google_review_url = 'Google review URL is required';
     }
 
+    if (formData.facebook_url?.trim() && !isValidHttpUrl(formData.facebook_url)) {
+      errors.facebook_url = 'Please enter a valid Facebook URL (e.g. https://facebook.com/...)';
+    }
+
+    if (formData.youtube_url?.trim() && !isValidHttpUrl(formData.youtube_url)) {
+      errors.youtube_url = 'Please enter a valid YouTube URL (e.g. https://youtube.com/...)';
+    }
+
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
@@ -644,6 +672,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
         google_review_url: '',
         instagram_url: '',
         website_url: '',
+        facebook_url: '',
+        youtube_url: '',
         templates: {
           Excellent: '',
           Good: '',
@@ -1045,6 +1075,56 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                               <Copy className="w-3.5 h-3.5" />
                             </button>
                           </div>
+
+                          {/* Social links indicators */}
+                          {(biz.facebook_url || biz.youtube_url || biz.instagram_url || biz.website_url) && (
+                            <div className="flex items-center gap-1.5 pt-0.5">
+                              {biz.facebook_url && (
+                                <a
+                                  href={biz.facebook_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="Facebook Page"
+                                  className="p-1 rounded-lg bg-[#FAF9F5] border border-[#E5E2DA] hover:border-[#1877F2] text-[#1877F2] transition-colors"
+                                >
+                                  <Facebook className="w-3 h-3" />
+                                </a>
+                              )}
+                              {biz.youtube_url && (
+                                <a
+                                  href={biz.youtube_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="YouTube Channel"
+                                  className="p-1 rounded-lg bg-[#FAF9F5] border border-[#E5E2DA] hover:border-[#FF0000] text-[#FF0000] transition-colors"
+                                >
+                                  <Youtube className="w-3 h-3" />
+                                </a>
+                              )}
+                              {biz.instagram_url && (
+                                <a
+                                  href={biz.instagram_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="Instagram Profile"
+                                  className="p-1 rounded-lg bg-[#FAF9F5] border border-[#E5E2DA] hover:border-[#E1306C] text-[#E1306C] transition-colors"
+                                >
+                                  <Instagram className="w-3 h-3" />
+                                </a>
+                              )}
+                              {biz.website_url && (
+                                <a
+                                  href={biz.website_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="Website"
+                                  className="p-1 rounded-lg bg-[#FAF9F5] border border-[#E5E2DA] hover:border-[#1C1C1E] text-[#2C2C2E] transition-colors"
+                                >
+                                  <Globe className="w-3 h-3" />
+                                </a>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -1430,38 +1510,93 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </p>
               </div>
 
-              {/* 6. Social Links: Instagram and Website */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
-                    <Instagram className="w-3.5 h-3.5 text-[#E1306C]" />
-                    <span>Instagram URL</span>
-                  </label>
-                  <input
-                    type="url"
-                    value={formData.instagram_url}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, instagram_url: e.target.value }))
-                    }
-                    placeholder="https://instagram.com/yourbusiness"
-                    className="w-full px-3.5 py-2 rounded-xl border border-[#E5E2DA] bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:border-[#1C1C1E] focus:bg-white"
-                  />
-                </div>
+              {/* 6. Social Links: Facebook, YouTube, Instagram, Website */}
+              <div className="space-y-3">
+                <label className="text-xs font-semibold text-[#1C1C1E] block">
+                  Social Media & Links <span className="text-[#8E8E93] font-normal">(Optional)</span>
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Facebook URL */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
+                      <Facebook className="w-3.5 h-3.5 text-[#1877F2]" />
+                      <span>Facebook Page URL</span>
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.facebook_url || ''}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, facebook_url: e.target.value }))
+                      }
+                      placeholder="https://facebook.com/yourbusiness"
+                      className={`w-full px-3.5 py-2 rounded-xl border bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:bg-white ${
+                        formErrors.facebook_url
+                          ? 'border-rose-500'
+                          : 'border-[#E5E2DA] focus:border-[#1C1C1E]'
+                      }`}
+                    />
+                    {formErrors.facebook_url && (
+                      <p className="text-[11px] text-rose-500">{formErrors.facebook_url}</p>
+                    )}
+                  </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
-                    <Globe className="w-3.5 h-3.5 text-[#1C1C1E]" />
-                    <span>Website URL</span>
-                  </label>
-                  <input
-                    type="url"
-                    value={formData.website_url}
-                    onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, website_url: e.target.value }))
-                    }
-                    placeholder="https://yourbusiness.in"
-                    className="w-full px-3.5 py-2 rounded-xl border border-[#E5E2DA] bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:border-[#1C1C1E] focus:bg-white"
-                  />
+                  {/* YouTube URL */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
+                      <Youtube className="w-3.5 h-3.5 text-[#FF0000]" />
+                      <span>YouTube Channel URL</span>
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.youtube_url || ''}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, youtube_url: e.target.value }))
+                      }
+                      placeholder="https://youtube.com/@yourchannel"
+                      className={`w-full px-3.5 py-2 rounded-xl border bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:bg-white ${
+                        formErrors.youtube_url
+                          ? 'border-rose-500'
+                          : 'border-[#E5E2DA] focus:border-[#1C1C1E]'
+                      }`}
+                    />
+                    {formErrors.youtube_url && (
+                      <p className="text-[11px] text-rose-500">{formErrors.youtube_url}</p>
+                    )}
+                  </div>
+
+                  {/* Instagram URL */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
+                      <Instagram className="w-3.5 h-3.5 text-[#E1306C]" />
+                      <span>Instagram URL</span>
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.instagram_url || ''}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, instagram_url: e.target.value }))
+                      }
+                      placeholder="https://instagram.com/yourbusiness"
+                      className="w-full px-3.5 py-2 rounded-xl border border-[#E5E2DA] bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:border-[#1C1C1E] focus:bg-white"
+                    />
+                  </div>
+
+                  {/* Website URL */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
+                      <Globe className="w-3.5 h-3.5 text-[#1C1C1E]" />
+                      <span>Website URL</span>
+                    </label>
+                    <input
+                      type="url"
+                      value={formData.website_url || ''}
+                      onChange={(e) =>
+                        setFormData((prev) => ({ ...prev, website_url: e.target.value }))
+                      }
+                      placeholder="https://yourbusiness.in"
+                      className="w-full px-3.5 py-2 rounded-xl border border-[#E5E2DA] bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:border-[#1C1C1E] focus:bg-white"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -1809,32 +1944,93 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 )}
               </div>
 
-              {/* 7. Instagram & Website */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-[#1C1C1E]">Instagram URL</label>
-                  <input
-                    type="url"
-                    value={editFormData.instagram_url}
-                    onChange={(e) =>
-                      setEditFormData((prev) => ({ ...prev, instagram_url: e.target.value }))
-                    }
-                    placeholder="https://instagram.com/..."
-                    className="w-full px-3.5 py-2 rounded-xl border border-[#E5E2DA] bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:border-[#1C1C1E] focus:bg-white"
-                  />
-                </div>
+              {/* 7. Social Links: Facebook, YouTube, Instagram, Website */}
+              <div className="space-y-3">
+                <label className="text-xs font-semibold text-[#1C1C1E] block">
+                  Social Media & Links <span className="text-[#8E8E93] font-normal">(Optional)</span>
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Facebook */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
+                      <Facebook className="w-3.5 h-3.5 text-[#1877F2]" />
+                      <span>Facebook Page URL</span>
+                    </label>
+                    <input
+                      type="url"
+                      value={editFormData.facebook_url}
+                      onChange={(e) =>
+                        setEditFormData((prev) => ({ ...prev, facebook_url: e.target.value }))
+                      }
+                      placeholder="https://facebook.com/..."
+                      className={`w-full px-3.5 py-2 rounded-xl border bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:bg-white ${
+                        editErrors.facebook_url
+                          ? 'border-rose-500'
+                          : 'border-[#E5E2DA] focus:border-[#1C1C1E]'
+                      }`}
+                    />
+                    {editErrors.facebook_url && (
+                      <p className="text-[11px] text-rose-500">{editErrors.facebook_url}</p>
+                    )}
+                  </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-[#1C1C1E]">Website URL</label>
-                  <input
-                    type="url"
-                    value={editFormData.website_url}
-                    onChange={(e) =>
-                      setEditFormData((prev) => ({ ...prev, website_url: e.target.value }))
-                    }
-                    placeholder="https://..."
-                    className="w-full px-3.5 py-2 rounded-xl border border-[#E5E2DA] bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:border-[#1C1C1E] focus:bg-white"
-                  />
+                  {/* YouTube */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
+                      <Youtube className="w-3.5 h-3.5 text-[#FF0000]" />
+                      <span>YouTube Channel URL</span>
+                    </label>
+                    <input
+                      type="url"
+                      value={editFormData.youtube_url}
+                      onChange={(e) =>
+                        setEditFormData((prev) => ({ ...prev, youtube_url: e.target.value }))
+                      }
+                      placeholder="https://youtube.com/@..."
+                      className={`w-full px-3.5 py-2 rounded-xl border bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:bg-white ${
+                        editErrors.youtube_url
+                          ? 'border-rose-500'
+                          : 'border-[#E5E2DA] focus:border-[#1C1C1E]'
+                      }`}
+                    />
+                    {editErrors.youtube_url && (
+                      <p className="text-[11px] text-rose-500">{editErrors.youtube_url}</p>
+                    )}
+                  </div>
+
+                  {/* Instagram */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
+                      <Instagram className="w-3.5 h-3.5 text-[#E1306C]" />
+                      <span>Instagram URL</span>
+                    </label>
+                    <input
+                      type="url"
+                      value={editFormData.instagram_url}
+                      onChange={(e) =>
+                        setEditFormData((prev) => ({ ...prev, instagram_url: e.target.value }))
+                      }
+                      placeholder="https://instagram.com/..."
+                      className="w-full px-3.5 py-2 rounded-xl border border-[#E5E2DA] bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:border-[#1C1C1E] focus:bg-white"
+                    />
+                  </div>
+
+                  {/* Website */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-[#1C1C1E] flex items-center gap-1.5">
+                      <Globe className="w-3.5 h-3.5 text-[#1C1C1E]" />
+                      <span>Website URL</span>
+                    </label>
+                    <input
+                      type="url"
+                      value={editFormData.website_url}
+                      onChange={(e) =>
+                        setEditFormData((prev) => ({ ...prev, website_url: e.target.value }))
+                      }
+                      placeholder="https://..."
+                      className="w-full px-3.5 py-2 rounded-xl border border-[#E5E2DA] bg-[#FAF9F5] text-xs text-[#1C1C1E] focus:outline-none focus:border-[#1C1C1E] focus:bg-white"
+                    />
+                  </div>
                 </div>
               </div>
 
