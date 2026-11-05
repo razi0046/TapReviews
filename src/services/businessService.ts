@@ -513,6 +513,142 @@ export const INITIAL_CATEGORY_SUGGESTIONS: ReviewSuggestion[] = [
     is_active: true,
   },
 
+  // Optics Store
+  {
+    id: 'sug-optics-exc',
+    business_category: 'optics-store',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Outstanding optics store! The optometrist performed a thorough, precise eye examination and helped me pick the ideal frames and anti-glare lenses. Pristine showroom, fast delivery, and comfortable fit.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-optics-good',
+    business_category: 'optics-store',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Great selection of eyeglasses and sunglasses. Friendly staff and prompt lens fitting. Pleased with the quality of my new frames.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-optics-avg',
+    business_category: 'optics-store',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Decent optical collection. Eye testing was fine, though frame adjustments took a couple of attempts to get the right bridge fit.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-optics-poor',
+    business_category: 'optics-store',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'The power prescription had to be redone due to initial lens inaccuracies, and turnaround was delayed. Customer service needs better communication.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Boutique Design House
+  {
+    id: 'sug-boutique-exc',
+    business_category: 'boutique-design-house',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'A breathtaking boutique design house! Unique couture pieces, artistic silhouettes, and unmatched attention to detail in every embroidery and drape. Working with their designer was an absolute dream.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-boutique-good',
+    business_category: 'boutique-design-house',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Beautiful designer apparel with distinctive cuts and premium textiles. Attentive stylists and pleasant studio atmosphere.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-boutique-avg',
+    business_category: 'boutique-design-house',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Creative fashion collection. Designs are elegant, though lead times for made-to-order garments were longer than estimated.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-boutique-poor',
+    business_category: 'boutique-design-house',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'The final outfit fitting did not match the agreed design specifications, and alterations were delayed. Expected better craftsmanship.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Tailoring
+  {
+    id: 'sug-tailor-exc',
+    business_category: 'tailoring',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Master tailoring at its best! The stitching was impeccable, measurements were exact on the first try, and the suit fit like a glove. Delivered on time with meticulous finishing.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-tailor-good',
+    business_category: 'tailoring',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Very skilled tailor with great attention to custom fitting. Clean stitching and reasonable turnaround for alterations.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-tailor-avg',
+    business_category: 'tailoring',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Satisfactory tailoring work. The fit was good after one round of minor adjustments, though delivery was a few days behind schedule.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-tailor-poor',
+    business_category: 'tailoring',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'The measurements were off and the garment was stitched too tight. Disappointed with the finishing and customer responsiveness.',
+    language: 'en',
+    is_active: true,
+  },
+
+  // Turf
+  {
+    id: 'sug-turf-exc',
+    business_category: 'turf',
+    satisfaction_level: 'Excellent',
+    suggestion_text: 'Top-notch sports turf! The artificial grass is well-maintained with great bounce, excellent LED floodlighting, clean dugouts, and ample parking. Perfect venue for football and box cricket matches!',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-turf-good',
+    business_category: 'turf',
+    satisfaction_level: 'Good',
+    suggestion_text: 'Fun place for weekend football games. Good pitch quality, clear boundary netting, and hassle-free slot booking.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-turf-avg',
+    business_category: 'turf',
+    satisfaction_level: 'Average',
+    suggestion_text: 'Decent turf facility. The pitch is okay, though the netting had a few minor tears and changing rooms could be cleaner.',
+    language: 'en',
+    is_active: true,
+  },
+  {
+    id: 'sug-turf-poor',
+    business_category: 'turf',
+    satisfaction_level: 'Poor',
+    suggestion_text: 'Poorly maintained turf with uneven patches and dim lighting during evening hours. Management double-booked our reserved slot.',
+    language: 'en',
+    is_active: true,
+  },
+
   // General / Default
   {
     id: 'sug-gen-exc',

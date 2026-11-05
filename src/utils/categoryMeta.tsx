@@ -22,6 +22,9 @@ import {
   Gem,
   GraduationCap,
   HelpCircle,
+  Glasses,
+  Palette,
+  Trophy,
   LucideIcon,
 } from 'lucide-react';
 
@@ -51,6 +54,10 @@ export const CATEGORY_DEFINITIONS: CategoryDefinition[] = [
   { value: 'clothing', label: 'Clothing Store', Icon: Shirt },
   { value: 'abaya-shop', label: 'Abaya Shop', Icon: Sparkles },
   { value: 'bags-shop', label: 'Bags Shop', Icon: ShoppingBag },
+  { value: 'optics-store', label: 'Optics Store', Icon: Glasses },
+  { value: 'boutique-design-house', label: 'Boutique Design House', Icon: Palette },
+  { value: 'tailoring', label: 'Tailoring', Icon: Scissors },
+  { value: 'turf', label: 'Turf', Icon: Trophy },
   { value: 'mobile-repairing-shop', label: 'Mobile Repairing Shop', Icon: Smartphone },
   { value: 'electronics-shop', label: 'Electronics Shop', Icon: Tv },
   { value: 'jewellery', label: 'Jewellery Shop', Icon: Gem },

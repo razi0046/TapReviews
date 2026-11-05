@@ -188,5 +188,21 @@ VALUES
     ('bags-shop', 'Excellent', 'Fantastic bag store! Impressive range of travel luggage, backpacks, and stylish handbags. Superior build quality, durable zippers, and knowledgeable staff who helped me choose the right size.', 'en', true),
     ('bags-shop', 'Good', 'Great selection of bags and accessories. Reasonable prices and helpful customer service.', 'en', true),
     ('bags-shop', 'Average', 'Decent collection of bags. Found what I needed, though warranty and return explanations could be clearer.', 'en', true),
-    ('bags-shop', 'Poor', 'The bag zipper had an issue within days and the exchange process was cumbersome. Disappointed with the after-sales experience.', 'en', true)
+    ('bags-shop', 'Poor', 'The bag zipper had an issue within days and the exchange process was cumbersome. Disappointed with the after-sales experience.', 'en', true),
+    ('optics-store', 'Excellent', 'Outstanding optics store! The optometrist performed a thorough, precise eye examination and helped me pick the ideal frames and anti-glare lenses. Pristine showroom, fast delivery, and comfortable fit.', 'en', true),
+    ('optics-store', 'Good', 'Great selection of eyeglasses and sunglasses. Friendly staff and prompt lens fitting. Pleased with the quality of my new frames.', 'en', true),
+    ('optics-store', 'Average', 'Decent optical collection. Eye testing was fine, though frame adjustments took a couple of attempts to get the right bridge fit.', 'en', true),
+    ('optics-store', 'Poor', 'The power prescription had to be redone due to initial lens inaccuracies, and turnaround was delayed. Customer service needs better communication.', 'en', true),
+    ('boutique-design-house', 'Excellent', 'A breathtaking boutique design house! Unique couture pieces, artistic silhouettes, and unmatched attention to detail in every embroidery and drape. Working with their designer was an absolute dream.', 'en', true),
+    ('boutique-design-house', 'Good', 'Beautiful designer apparel with distinctive cuts and premium textiles. Attentive stylists and pleasant studio atmosphere.', 'en', true),
+    ('boutique-design-house', 'Average', 'Creative fashion collection. Designs are elegant, though lead times for made-to-order garments were longer than estimated.', 'en', true),
+    ('boutique-design-house', 'Poor', 'The final outfit fitting did not match the agreed design specifications, and alterations were delayed. Expected better craftsmanship.', 'en', true),
+    ('tailoring', 'Excellent', 'Master tailoring at its best! The stitching was impeccable, measurements were exact on the first try, and the suit fit like a glove. Delivered on time with meticulous finishing.', 'en', true),
+    ('tailoring', 'Good', 'Very skilled tailor with great attention to custom fitting. Clean stitching and reasonable turnaround for alterations.', 'en', true),
+    ('tailoring', 'Average', 'Satisfactory tailoring work. The fit was good after one round of minor adjustments, though delivery was a few days behind schedule.', 'en', true),
+    ('tailoring', 'Poor', 'The measurements were off and the garment was stitched too tight. Disappointed with the finishing and customer responsiveness.', 'en', true),
+    ('turf', 'Excellent', 'Top-notch sports turf! The artificial grass is well-maintained with great bounce, excellent LED floodlighting, clean dugouts, and ample parking. Perfect venue for football and box cricket matches!', 'en', true),
+    ('turf', 'Good', 'Fun place for weekend football games. Good pitch quality, clear boundary netting, and hassle-free slot booking.', 'en', true),
+    ('turf', 'Average', 'Decent turf facility. The pitch is okay, though the netting had a few minor tears and changing rooms could be cleaner.', 'en', true),
+    ('turf', 'Poor', 'Poorly maintained turf with uneven patches and dim lighting during evening hours. Management double-booked our reserved slot.', 'en', true)
 ON CONFLICT DO NOTHING;

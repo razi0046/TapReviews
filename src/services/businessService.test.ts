@@ -134,7 +134,7 @@ test('businessService.pickRotatingReviewSuggestion retries with general when cus
   assert.ok(result.review_text.length > 10);
 });
 
-test('businessService returns suggestions for all 7 new categories across satisfaction levels', async () => {
+test('businessService returns suggestions for all new categories across satisfaction levels', async () => {
   const newCategories = [
     'fast-food',
     'kebab-store',
@@ -143,6 +143,10 @@ test('businessService returns suggestions for all 7 new categories across satisf
     'snacks-shop',
     'meat-shop',
     'bags-shop',
+    'optics-store',
+    'boutique-design-house',
+    'tailoring',
+    'turf',
   ];
 
   const levels: ('Excellent' | 'Good' | 'Average' | 'Poor')[] = [

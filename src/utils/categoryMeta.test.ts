@@ -15,6 +15,10 @@ test('categoryMeta formats standard categories with user-friendly labels', () =>
   assert.equal(formatCategoryLabel('snacks-shop'), 'Snacks Shop');
   assert.equal(formatCategoryLabel('meat-shop'), 'Meat Shop');
   assert.equal(formatCategoryLabel('bags-shop'), 'Bags Shop');
+  assert.equal(formatCategoryLabel('optics-store'), 'Optics Store');
+  assert.equal(formatCategoryLabel('boutique-design-house'), 'Boutique Design House');
+  assert.equal(formatCategoryLabel('tailoring'), 'Tailoring');
+  assert.equal(formatCategoryLabel('turf'), 'Turf');
   assert.equal(formatCategoryLabel('cafe'), 'Café');
   assert.equal(formatCategoryLabel('restaurant'), 'Restaurant');
 });
@@ -27,7 +31,7 @@ test('categoryMeta formats custom slugs accurately', () => {
   assert.equal(formatCategoryLabel(undefined), 'General');
 });
 
-test('categoryMeta assigns valid icon components for all 7 new categories', () => {
+test('categoryMeta assigns valid icon components for all new categories', () => {
   const newCategories = [
     'fast-food',
     'kebab-store',
@@ -36,6 +40,10 @@ test('categoryMeta assigns valid icon components for all 7 new categories', () =
     'snacks-shop',
     'meat-shop',
     'bags-shop',
+    'optics-store',
+    'boutique-design-house',
+    'tailoring',
+    'turf',
   ];
 
   for (const cat of newCategories) {
@@ -46,7 +54,7 @@ test('categoryMeta assigns valid icon components for all 7 new categories', () =
   }
 });
 
-test('STANDARD_CATEGORIES and CATEGORY_OPTIONS contain all 7 new categories with exact slugs', () => {
+test('STANDARD_CATEGORIES and CATEGORY_OPTIONS contain all new categories with exact slugs', () => {
   const expectedSlugs = [
     'fast-food',
     'kebab-store',
@@ -55,6 +63,10 @@ test('STANDARD_CATEGORIES and CATEGORY_OPTIONS contain all 7 new categories with
     'snacks-shop',
     'meat-shop',
     'bags-shop',
+    'optics-store',
+    'boutique-design-house',
+    'tailoring',
+    'turf',
   ];
 
   for (const slug of expectedSlugs) {
